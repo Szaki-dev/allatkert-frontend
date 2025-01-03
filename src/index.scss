@@ -1,0 +1,82 @@
+// Set Language Mode to "Tailwind CSS" to
+// Get rid of the warnings about @apply
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  #app {
+    @apply bg-stone-900 text-stone-300 flex min-h-svh;
+  }
+
+  form {
+    input {
+      @apply block w-full min-w-0 flex-1 mt-1 px-3 py-2 bg-stone-900 text-stone-300 rounded-md shadow-sm focus:ring-0 border border-transparent focus:outline-none focus:border-stone-700 transition-colors;
+    }
+
+    button {
+      @apply inline-flex whitespace-nowrap justify-center items-center py-2 px-4 border border-stone-700 shadow-sm font-medium rounded-md text-stone-300 bg-stone-800 hover:bg-stone-900 transition-colors focus:outline-none focus:ring-0;
+    }
+  }
+
+  button {
+    i {
+      @apply mr-2;
+    }
+  }
+
+  .card {
+    @apply bg-stone-800 text-stone-300 shadow-md rounded-lg p-3 lg:p-6;
+
+    div {
+      @apply flex justify-between items-end mb-4;
+
+      h2 {
+        @apply text-xl font-semibold;
+      }
+
+      p {
+        @apply text-stone-400;
+      }
+    }
+  }
+
+  table {
+    @apply min-w-full divide-y divide-stone-800;
+
+    thead {
+      th {
+        @apply px-6 py-3 text-left text-sm font-medium text-stone-500 uppercase tracking-wider;
+
+        &:last-child {
+          @apply text-right;
+        }
+      }
+    }
+
+    tbody {
+      tr {
+        &:nth-child(odd) {
+          @apply bg-stone-900;
+        }
+
+        td {
+          &:first-child {
+            @apply text-stone-300;
+          }
+
+          &:last-child {
+            @apply text-right;
+          }
+
+          button {
+            @apply text-red-500;
+          }
+
+          @apply px-6 py-4 whitespace-nowrap text-sm text-stone-400;
+        }
+      }
+    }
+  }
+}

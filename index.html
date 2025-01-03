@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Állatkert FE</title>
+  </head>
+
+  <body>
+    <div id="app">
+      <div class="container mx-auto my-8 px-4 lg:px-0 flex flex-col gap-6">
+        <span class="flex justify-between items-end">
+          <h1 class="text-3xl font-bold">Állatkert</h1>
+          <h2>By Szaki</h2>
+        </span>
+        <div class="card lg:col-span-2 max-h-fit">
+          <form
+            id="new-animal-form"
+            class="grid grid-cols-1 lg:grid-cols-4 gap-4"
+          >
+            <h2 class="text-xl font-semibold">Hozzáadás</h2>
+            <input type="text" id="name" name="name" placeholder="Név" />
+            <input type="text" id="species" name="species" placeholder="Faj"/>
+            <input type="number" id="age" name="age" placeholder="Kor" />
+            <span id="error-message" class="lg:col-span-3 text-red-500 self-center"></span>
+            <button type="submit">
+              <i class="fa-solid fa-cloud-arrow-up"></i>
+              Hozzáadás
+            </button>
+          </form>
+        </div>
+
+        <div class="grid grid-cols-1 grid-rows-3 lg:grid-rows-2 lg:grid-cols-2 gap-6">
+          <div class="card">
+            <div class="flex justify-between">
+              <h2>Fajonként</h2>
+              <p>
+                <span id="species-count"></span>
+                faj
+              </p>
+            </div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Fajok</th>
+                  <th>Darab</th>
+                </tr>
+              </thead>
+              <tbody id="species-rows">
+                <tr>
+                  <td>clownfish</td>
+                  <td class="text-right">1</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <div class="card">
+            <div class="flex justify-between">
+              <h2>Állatok</h2>
+              <p>
+                <span id="animal-count"></span>
+                állat
+              </p>
+            </div>
+            <div class="overflow-x-auto">
+              <table>
+                <thead>
+                  <tr>
+                    <th>Név</th>
+                    <th>Faj</th>
+                    <th>Kor</th>
+                    <th>Gombok</th>
+                  </tr>
+                </thead>
+                <tbody id="animal-rows">
+                  <tr>
+                    <td>Nemo</td>
+                    <td>clownfish</td>
+                    <td>6</td>
+                    <td>
+                      <button>
+                        <i class="fa-solid fa-trash"></i>
+                        Törlés
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
