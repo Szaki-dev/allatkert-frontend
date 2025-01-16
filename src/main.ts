@@ -1,6 +1,3 @@
-import './index.scss'
-
-// Types for our data
 interface Animal {
   id: number
   name: string
@@ -13,7 +10,6 @@ interface SpeciesCount {
   species: string
 }
 
-// API functions
 const API_BASE_URL = 'http://localhost:3000'
 
 async function fetchAnimals(): Promise<Animal[]> {
@@ -51,56 +47,36 @@ async function addAnimal(animal: Omit<Animal, 'id'>): Promise<Animal> {
   return response.json()
 }
 
-// UI update functions
 function updateAnimalsList(animals: Animal[]) {
+  const template = document.getElementById('animalRow') as HTMLTemplateElement
   const tbody = document.getElementById('animal-rows')!
-  const count = document.getElementById('animal-count')!
-
-  tbody.innerHTML = animals
-    .sort((a, b) => a.name.localeCompare(b.name))
-    .map(
-      (animal) => `
-        <tr>
-          <td>${animal.name}</td>
-          <td>${animal.species}</td>
-          <td>${animal.age}</td>
-          <td>
-            <button onclick="handleDelete(${animal.id})" class="delete-button">
-              <i class="fa-solid fa-trash"></i> Törlés
-            </button>
-          </td>
-        </tr>
-      `
+  tbody.innerHTML = ''
+  animals.map(
+      (animal) => {
+        const clone = document.importNode(template.content, true)
+        const tds = clone.querySelectorAll('td')
+        tds[0].textContent = animal.name
+        tds[1].textContent = animal.species
+        tds[2].textContent = animal.age.toString()
+        tds[3].querySelector('button')!.addEventListener('click', () => handleDelete(animal.id))
+        tbody.appendChild(clone)
+      }
     )
-    .join('')
-
-  count.textContent = animals.length.toString()
 }
 
 function updateSpeciesList(speciesCounts: SpeciesCount[]) {
+  const template = document.getElementById('speciesRow') as HTMLTemplateElement
   const tbody = document.getElementById('species-rows')!
-  const count = document.getElementById('species-count')!
-
-  tbody.innerHTML = speciesCounts
-    .sort((a, b) => b._count - a._count)
-    .map(
-      (count) => `
-        <tr>
-          <td>${count.species}</td>
-          <td class="text-right">${count._count}</td>
-        </tr>
-      `
+  tbody.innerHTML = ''
+  speciesCounts.map(
+      (speciesCount) => {
+        const clone = document.importNode(template.content, true)
+        const tds = clone.querySelectorAll('td')
+        tds[0].textContent = speciesCount.species
+        tds[1].textContent = speciesCount._count.toString()
+        tbody.appendChild(clone)
+      }
     )
-    .join('')
-
-  count.textContent = speciesCounts.length.toString()
-}
-
-// Event handlers
-declare global {
-  interface Window {
-    handleDelete: (id: number) => Promise<void>
-  }
 }
 
 async function handleDelete(id: number) {
@@ -127,7 +103,7 @@ async function handleNewAnimal(event: Event) {
   const age = parseInt(formData.get('age') as string)
 
   if (!name || !species || isNaN(age)) {
-    showError('Please fill in all fields')
+    showError('Khm, mindent tölts ki!')
     return
   }
 
@@ -142,7 +118,6 @@ async function handleNewAnimal(event: Event) {
   }
 }
 
-// Data refresh function
 async function refreshData() {
   const [animals, speciesCounts] = await Promise.all([
     fetchAnimals(),
@@ -152,14 +127,9 @@ async function refreshData() {
   updateSpeciesList(speciesCounts)
 }
 
-// Initialize
-function initialize() {
-  const form = document.getElementById('new-animal-form')!
+document.addEventListener('DOMContentLoaded', () => {
+  const form = document.getElementById('newAnimalForm')!
   form.addEventListener('submit', handleNewAnimal)
 
-  window.handleDelete = handleDelete
-
   refreshData()
-}
-
-document.addEventListener('DOMContentLoaded', initialize)
+})

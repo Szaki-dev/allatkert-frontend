@@ -3,98 +3,83 @@
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <link
-      rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
-      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
-      crossorigin="anonymous"
-      referrerpolicy="no-referrer"
-    />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Állatkert FE</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
   </head>
-
   <body>
     <div id="app">
-      <div class="container mx-auto my-8 px-4 lg:px-0 flex flex-col gap-6">
-        <span class="flex justify-between items-end">
-          <h1 class="text-3xl font-bold">Állatkert</h1>
-          <h2>By Szaki</h2>
-        </span>
-        <div class="card lg:col-span-2 max-h-fit">
-          <form
-            id="new-animal-form"
-            class="grid grid-cols-1 lg:grid-cols-4 gap-4"
-          >
-            <h2 class="text-xl font-semibold">Hozzáadás</h2>
-            <input type="text" id="name" name="name" placeholder="Név" />
-            <input type="text" id="species" name="species" placeholder="Faj"/>
-            <input type="number" id="age" name="age" placeholder="Kor" />
-            <span id="error-message" class="lg:col-span-3 text-red-500 self-center"></span>
-            <button type="submit">
-              <i class="fa-solid fa-cloud-arrow-up"></i>
-              Hozzáadás
-            </button>
+      <div class="container my-4">
+        <h1 class="fw-bold text-center my-4">Állatkert</h1>
+        <div class="card card-body">
+          <h3 class="card-title col-6">Hozzáadás</h3>
+          <form id="newAnimalForm" class="row g-3">
+            <div class="col-4">
+              <input type="text" id="name" name="name" class="form-control" placeholder="Név" />
+            </div>
+            <div class="col-4">
+              <input type="text" id="species" name="species" class="form-control" placeholder="Faj" />
+            </div>
+            <div class="col-4">
+              <input type="number" id="age" name="age" class="form-control" placeholder="Kor" />
+            </div>
+            <span id="error-message" class="text-danger col-6"></span>
+            <div class="col-6 text-end">
+              <button type="submit" class="btn btn-primary">Hozzáadás</button>
+            </div>   
           </form>
         </div>
-
-        <div class="grid grid-cols-1 grid-rows-3 lg:grid-rows-2 lg:grid-cols-2 gap-6">
-          <div class="card">
-            <div class="flex justify-between">
-              <h2>Fajonként</h2>
-              <p>
-                <span id="species-count"></span>
-                faj
-              </p>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th>Fajok</th>
-                  <th>Darab</th>
-                </tr>
-              </thead>
-              <tbody id="species-rows">
-                <tr>
-                  <td>clownfish</td>
-                  <td class="text-right">1</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-
-          <div class="card">
-            <div class="flex justify-between">
-              <h2>Állatok</h2>
-              <p>
-                <span id="animal-count"></span>
-                állat
-              </p>
-            </div>
-            <div class="overflow-x-auto">
-              <table>
+        <div class="row mt-4 my-4">
+          <div class="col-md-6">
+            <div class="card card-body">
+              <h3 class="card-title">Fajonként</h3>
+              <table class="table text-center table-striped">
                 <thead>
                   <tr>
-                    <th>Név</th>
-                    <th>Faj</th>
-                    <th>Kor</th>
-                    <th>Gombok</th>
+                    <th class="text-start">Faj</th>
+                    <th class="text-end">Darab</th>
                   </tr>
                 </thead>
-                <tbody id="animal-rows">
+                <template id="speciesRow">
                   <tr>
-                    <td>Nemo</td>
-                    <td>clownfish</td>
-                    <td>6</td>
-                    <td>
-                      <button>
-                        <i class="fa-solid fa-trash"></i>
-                        Törlés
-                      </button>
-                    </td>
+                    <td class="text-start">species</td>
+                    <td class="text-end">count</td>
                   </tr>
+                </template>
+                <tbody id="species-rows">
                 </tbody>
               </table>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="card card-body">
+              <h3 class="card-title" >Állatok</h3>
+              <div class="table-responsive">
+                <table class="table table-striped">
+                  <thead class="text-center">
+                    <tr>
+                      <th class="text-start">Név</th>
+                      <th>Faj</th>
+                      <th>Kor</th>
+                      <th>Törlés</th>
+                    </tr>
+                  </thead>
+                  <template id="animalRow">
+                    <tr class="text-center">
+                      <td class="text-start">name</td>
+                      <td>species</td>
+                      <td>age</td>
+                      <td class="text-center">
+                        <button class="btn btn-danger btn-sm">Törlés</button>
+                      </td>
+                    </tr>
+                  </template>
+                  <tbody id="animal-rows">
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
